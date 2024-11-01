@@ -1,0 +1,68 @@
+<?php
+
+namespace TotalSurvey\Tasks\Utils;
+! defined( 'ABSPATH' ) && exit();
+
+
+use TotalSurvey\Capabilities\UserCanCreateSurvey;
+use TotalSurvey\Capabilities\UserCanDeleteEntries;
+use TotalSurvey\Capabilities\UserCanDeleteOthersEntries;
+use TotalSurvey\Capabilities\UserCanDeleteOthersSurveys;
+use TotalSurvey\Capabilities\UserCanDeleteSurvey;
+use TotalSurvey\Capabilities\UserCanExportData;
+use TotalSurvey\Capabilities\UserCanExportEntries;
+use TotalSurvey\Capabilities\UserCanManageModules;
+use TotalSurvey\Capabilities\UserCanManageOptions;
+use TotalSurvey\Capabilities\UserCanUpdateOthersSurveys;
+use TotalSurvey\Capabilities\UserCanUpdateSurvey;
+use TotalSurvey\Capabilities\UserCanViewData;
+use TotalSurvey\Capabilities\UserCanViewEntries;
+use TotalSurvey\Capabilities\UserCanViewOthersSurveys;
+use TotalSurvey\Capabilities\UserCanViewSurveys;
+use TotalSurveyVendors\TotalSuite\Foundation\Task;
+use TotalSurveyVendors\TotalSuite\Foundation\WordPress\Roles;
+
+/**
+ * Class DetachRoles
+ *
+ * @package TotalSurvey\Tasks
+ * @method static array invoke()
+ * @method static array invokeWithFallback(array $fallback)
+ */
+class DetachDefaultCapabilitiesFromDefaultRoles extends Task
+{
+    /**
+     * @inheritDoc
+     */
+    protected function validate()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function execute()
+    {
+        Roles::remove(
+            Roles::ADMINISTRATOR,
+            [
+                UserCanManageOptions::NAME,
+                UserCanManageModules::NAME,
+                UserCanCreateSurvey::NAME,
+                UserCanUpdateSurvey::NAME,
+                UserCanDeleteSurvey::NAME,
+                UserCanViewSurveys::NAME,
+                UserCanViewOthersSurveys::NAME,
+                UserCanUpdateOthersSurveys::NAME,
+                UserCanDeleteOthersSurveys::NAME,
+                UserCanDeleteOthersEntries::NAME,
+                UserCanViewEntries::NAME,
+                UserCanDeleteEntries::NAME,
+                UserCanExportEntries::NAME,
+                UserCanViewData::NAME,
+                UserCanExportData::NAME,
+            ]
+        );
+    }
+}
